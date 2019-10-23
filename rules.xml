@@ -1,0 +1,16 @@
+<CORSConfiguration>
+    <CORSRule>
+        <ID>Allow Localhost uploats</ID>
+        <AllowedOrigin>http://localhost:8080</AllowedOrigin>
+        <AllowedMethod>PUT</AllowedMethod>
+        <AllowedHeader>Content-*</AllowedHeader>
+        <AllowedHeader>Host</AllowedHeader>
+    </CORSRule>
+    <CORSRule>
+        <ID>Allow prod uploats</ID>
+        <AllowedOrigin>https://timbrook.tech</AllowedOrigin>
+        <AllowedMethod>PUT</AllowedMethod>
+        <AllowedHeader>Content-*</AllowedHeader>
+        <AllowedHeader>Host</AllowedHeader>
+    </CORSRule>
+</CORSConfiguration>

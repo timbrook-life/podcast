@@ -1,0 +1,38 @@
+replicaCount: 1
+
+image:
+    repository: 7imbrook/podcast
+
+healthEndpoint: "/pod.xml"
+
+container:
+    port: 4000
+
+ingress:
+    enabled: true
+    hosts:
+        - timbrook.tech 
+    paths:
+        - /pod.xml
+        - /api/upload
+        - /api/configure
+
+secrets:
+    - jwt-keys
+
+environment:
+    - name: ACCESS_KEY_ID
+      valueFrom:
+        secretKeyRef:
+            name: digital-ocean-spaces
+            key: key 
+    - name: SECRET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+            name: digital-ocean-spaces
+            key: token 
+    - name: AMQT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+            name: rabbitmq
+            key: rabbitmq-password 

@@ -1,0 +1,10 @@
+flask
+flask-api
+beautifulsoup4
+lxml
+requests
+boto3
+uwsgi
+python-jose[cryptography]
+protobuf
+pika
