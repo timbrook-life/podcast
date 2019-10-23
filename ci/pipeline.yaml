@@ -22,17 +22,17 @@ resources:
       username: ((docker.username))
       password: ((docker.password))
       repository: 7imbrook/podcast
-  # - name: auth
-  #   type: kube-authenticator
-  #   icon: lock-outline
-  #   source:
-  #     token: ((digital_ocean.token))
-  # - name: helm-release
-  #   type: helm
-  #   source:
-  #     repos:
-  #       - name: personal
-  #         url: https://helm-charts.sfo2.digitaloceanspaces.com
+  - name: auth
+    type: kube-authenticator
+    icon: lock-outline
+    source:
+      token: ((digital_ocean.token))
+  - name: helm-release
+    type: helm
+    source:
+      repos:
+        - name: personal
+          url: https://helm-charts.sfo2.digitaloceanspaces.com
 jobs:
   - name: Build
     serial: true
@@ -42,5 +42,27 @@ jobs:
       - put: podcast-binary
         params:
           build: podcast
+        get_params: { skip_download: true }
         inputs:
           - podcast
+  - name: Binary Push
+    serial: true
+    plan:
+      - get: podcast-binary
+        trigger: true
+        passed:
+          - Build
+      - get: auth
+      - get: podcast
+      - put: helm-release
+        params:
+          release: podcast
+          kubeconfig_path: auth/config.yaml
+          chart: personal/appshell
+          version: 0.2.0
+          values: podcast/values.yaml
+          show_diff: true
+          override_values:
+            - key: image.sha
+              path: podcast-binary/digest
+              type: string

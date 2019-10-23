@@ -11,7 +11,7 @@ container:
 ingress:
     enabled: true
     hosts:
-        - timbrook.tech 
+        - timbrook.tech
     paths:
         - /pod.xml
         - /api/upload
@@ -23,16 +23,16 @@ secrets:
 environment:
     - name: ACCESS_KEY_ID
       valueFrom:
-        secretKeyRef:
-            name: digital-ocean-spaces
-            key: key 
+          secretKeyRef:
+              name: digital-ocean-spaces
+              key: key
     - name: SECRET_ACCESS_KEY
       valueFrom:
-        secretKeyRef:
-            name: digital-ocean-spaces
-            key: token 
+          secretKeyRef:
+              name: digital-ocean-spaces
+              key: token
     - name: AMQT_PASSWORD
       valueFrom:
-        secretKeyRef:
-            name: rabbitmq
-            key: rabbitmq-password 
+          secretKeyRef:
+              name: rabbitmq
+              key: rabbitmq-password
