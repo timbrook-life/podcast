@@ -16,57 +16,31 @@ resources:
     source:
       uri: "https://github.com/timbrook-life/podcast"
       branch: master
-  - name: nginx-edge-proxy
+  - name: podcast-binary
     type: docker-image
     source:
       username: ((docker.username))
       password: ((docker.password))
-      repository: 7imbrook/life
-  - name: auth
-    type: kube-authenticator
-    icon: lock-outline
-    source:
-      token: ((digital_ocean.token))
-  - name: helm-release
-    type: helm
-    source:
-      repos:
-        - name: personal
-          url: https://helm-charts.sfo2.digitaloceanspaces.com
+      repository: 7imbrook/podcast
+  # - name: auth
+  #   type: kube-authenticator
+  #   icon: lock-outline
+  #   source:
+  #     token: ((digital_ocean.token))
+  # - name: helm-release
+  #   type: helm
+  #   source:
+  #     repos:
+  #       - name: personal
+  #         url: https://helm-charts.sfo2.digitaloceanspaces.com
 jobs:
-  - name: Build Assets
+  - name: Build
     serial: true
     plan:
-      - get: frontend
+      - get: podcast
         trigger: true
-      - task: build
-        file: frontend/ci/task_build.yaml
-      - task: release
-        file: frontend/ci/task_release.yaml
-      - put: nginx-edge-proxy
+      - put: podcast-binary
         params:
-          build: ./frontend_dist/conf
+          build: podcast
         inputs:
-          - frontend_dist
-  - name: Binary Push
-    serial: true
-    plan:
-      - get: nginx-edge-proxy
-        trigger: true
-        passed:
-          - Build Assets
-        get_params: { skip_download: true }
-      - get: frontend
-      - get: auth
-      - put: helm-release
-        params:
-          release: personal-site-frontend
-          kubeconfig_path: auth/config.yaml
-          chart: personal/appshell
-          version: 0.2.0
-          values: frontend/values.yaml
-          show_diff: true
-          override_values:
-            - key: image.sha
-              path: nginx-edge-proxy/digest
-              type: string
+          - podcast
