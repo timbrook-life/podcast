@@ -22,3 +22,11 @@ vault:
   enabled: true
   host: "http://vault.core.svc.cluster.local"
   role: "podcasts"
+
+resources:
+  limits:
+   cpu: 200m
+   memory: 512Mi
+  requests:
+   cpu: 200m
+   memory: 512Mi
