@@ -80,7 +80,8 @@ exec {
   # one instead of sending it a signal. This is useful for legacy applications
   # or applications that cannot properly reload their configuration without a
   # full reload.
-  reload_signal = "SIGTERM"
+  # Don't SIGTERM, just kills itself
+  # reload_signal = "SIGTERM"
 
   # This defines the signal sent to the child process when Consul Template is
   # gracefully shutting down. The application should begin a graceful cleanup.
