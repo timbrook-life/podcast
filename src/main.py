@@ -53,7 +53,8 @@ def podcasts():
     )
 
     channel = doc.new_tag("channel")
-    channel = populate_podcast(doc, channel, get_podcasts(1))
+    # Killing off using postgrest internally
+    # channel = populate_podcast(doc, channel, get_podcasts(1))
 
     rss_feed.append(channel)
     doc.append(rss_feed)
