@@ -33,6 +33,11 @@ def get_podcasts(id):
     return res.json()
 
 
+@app.route("/health")
+def health():
+    return "ok"
+
+
 @app.route("/pod.xml")
 def podcasts():
     doc = BeautifulSoup(features="xml")
