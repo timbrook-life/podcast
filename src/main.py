@@ -21,7 +21,7 @@ app = FlaskAPI(__name__)
 
 def get_podcasts(id):
     res = requests.get(
-        "http://postgrest-api/podcasts",
+        "http://postgrest-api-deployment.api.svc.cluster.local/podcasts",
         headers={"Accept": "application/vnd.pgrst.object+json"},
         params={
             "select": "*,episodes(*)",
@@ -74,7 +74,7 @@ def upload():
 
     # Pre creation episode and set file handle reference
     episode = requests.post(
-        "http://postgrest-api.production.svc.cluster.local/episodes?select=id",
+        "http://postgrest-api-deployment.api.svc.cluster.local/episodes?select=id",
         headers={
             "Authorization": f"Bearer {token}",
             "Accept": "application/vnd.pgrst.object+json",
@@ -94,7 +94,7 @@ def configure():
     token = request.cookies.get("token")
 
     res = requests.patch(
-        f"http://postgrest-api.production.svc.cluster.local/episodes?id=eq.{ep_id}",
+        f"http://postgrest-api-deployment.api.svc.cluster.local/episodes?id=eq.{ep_id}",
         headers={"Authorization": f"Bearer {token}", "Prefer": "return=representation"},
         data={"podcast": pod_id},
     ).json()
