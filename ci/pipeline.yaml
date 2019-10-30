@@ -58,11 +58,11 @@ jobs:
       - get: podcast
       - put: helm-release
         params:
-          release: podcast-test
-          namespace: testing
+          release: podcast
+          namespace: production
           kubeconfig_path: auth/config.yaml
           chart: personal/appshell
-          version: 0.1.14
+          version: 1.0.15
           values: podcast/values.yaml
           show_diff: true
           override_values:

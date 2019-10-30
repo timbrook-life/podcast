@@ -5,6 +5,7 @@ vault {
     enabled = false
     verify = false
   }
+  vault_agent_token_file = "/var/run/secrets/.vault-token"
 }
 
 ###
