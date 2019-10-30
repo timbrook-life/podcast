@@ -62,7 +62,7 @@ jobs:
           namespace: production
           kubeconfig_path: auth/config.yaml
           chart: personal/appshell
-          version: 1.0.15
+          version: 1.0.17
           values: podcast/values.yaml
           show_diff: true
           override_values:
