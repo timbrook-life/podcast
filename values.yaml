@@ -12,6 +12,7 @@ ingress:
     enabled: true
     hosts:
         - timbrook.tech
+        - timbrook.dev
     paths:
         - /pod.xml
         - /api/upload
