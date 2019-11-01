@@ -8,3 +8,5 @@ uwsgi
 python-jose[cryptography]
 protobuf
 pika
+psycopg2
+sqlalchemy

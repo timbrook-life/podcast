@@ -8,6 +8,10 @@ vault {
   vault_agent_token_file = "/var/run/secrets/.vault-token"
 }
 
+consul {
+  address = "http://consul.core.svc.cluster.local:8500"
+}
+
 ###
 # Application Templates live here 
 #
@@ -22,6 +26,13 @@ template {
   left_delimiter  = "<%"
   right_delimiter = "%>"
 }
+
+template {
+  source = "./conf/templates/connection.ctmpl"
+  destination = "./connection.py"
+  error_on_missing_key = true
+}
+
 
 
 # This block defines the configuration for exec mode. Please see the exec mode

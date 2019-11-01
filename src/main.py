@@ -6,6 +6,7 @@ from flask_api import FlaskAPI
 from src.utils import require_valid_token, AsyncProccessor
 from src.podcast import populate_episode, populate_podcast
 from twirp.AsyncTypes_pb2 import DurationPayload
+from src.feed.generator import PodcastFeedGenerator
 
 key = os.environ.get("ACCESS_KEY_ID")
 secret = os.environ.get("SECRET_ACCESS_KEY")
@@ -19,20 +20,6 @@ s3 = boto3.client(
 app = FlaskAPI(__name__)
 
 
-def get_podcasts(id):
-    res = requests.get(
-        "http://postgrest-api-deployment.api.svc.cluster.local/podcasts",
-        headers={"Accept": "application/vnd.pgrst.object+json"},
-        params={
-            "select": "*,episodes(*)",
-            "id": f"eq.{id}",
-            "episodes.published": "eq.true",
-        },
-    )
-
-    return res.json()
-
-
 @app.route("/health")
 def health():
     return "ok"
@@ -40,29 +27,10 @@ def health():
 
 @app.route("/pod.xml")
 def podcasts():
-    doc = BeautifulSoup(features="xml")
-
-    rss_feed = doc.new_tag(
-        "rss",
-        **{
-            "xmlns:atom": "http://www.w3.org/2005/Atom",
-            "xmlns:content": "http://purl.org/rss/1.0/modules/content/",
-            "xmlns:itunes": "http://www.itunes.com/dtds/podcast-1.0.dtd",
-            "version": "2.0",
-        },
-    )
-
-    channel = doc.new_tag("channel")
-    # Killing off using postgrest internally
-    # channel = populate_podcast(doc, channel, get_podcasts(1))
-
-    rss_feed.append(channel)
-    doc.append(rss_feed)
-
-    return Response(str(doc), mimetype="text/xml")
-
-
-# TODO: modulize
+    # channel = doc.new_tag("channel")
+    # rss_feed.append(channel)
+    # doc.append(rss_feed)
+    return Response(PodcastFeedGenerator(pod_id=1).render(), mimetype="text/xml")
 
 
 @app.route("/api/upload", methods=["POST"])

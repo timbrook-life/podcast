@@ -1,0 +1,13 @@
+version: "3.3"
+
+services:
+  podcast:
+    ports:
+      - 4000:4000
+    build: .
+    volumes:
+      - ./:/app
+      - ./secrets/:/var/run/secrets/
+    extra_hosts:
+      - consul.core.svc.cluster.local:192.168.1.58
+      - vault.core.svc.cluster.local:192.168.1.58
