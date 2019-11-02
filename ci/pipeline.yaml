@@ -16,6 +16,17 @@ resources:
     source:
       uri: "https://github.com/timbrook-life/podcast"
       branch: master
+      ignore_paths:
+        - values.yaml
+        - ci/*
+  - name: podcast-deploy
+    type: git
+    icon: github-circle
+    source:
+      uri: "https://github.com/timbrook-life/podcast"
+      branch: master
+      paths:
+        - values.yaml
   - name: podcast-binary
     type: docker-image
     source:
@@ -55,7 +66,8 @@ jobs:
         passed:
           - Build
       - get: auth
-      - get: podcast
+      - get: podcast-deploy
+        trigger: true
       - put: helm-release
         params:
           release: podcast
@@ -63,7 +75,7 @@ jobs:
           kubeconfig_path: auth/config.yaml
           chart: personal/appshell
           version: 1.0.17
-          values: podcast/values.yaml
+          values: podcast-deploy/values.yaml
           show_diff: true
           override_values:
             - key: image.sha
