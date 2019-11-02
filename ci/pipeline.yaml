@@ -21,7 +21,7 @@ resources:
         - ci/*
   - name: podcast-deploy
     type: git
-    icon: github-circle
+    icon: airplane-takeoff
     source:
       uri: "https://github.com/timbrook-life/podcast"
       branch: master
@@ -29,13 +29,14 @@ resources:
         - values.yaml
   - name: podcast-binary
     type: docker-image
+    icon: docker
     source:
       username: ((docker.username))
       password: ((docker.password))
       repository: 7imbrook/podcast
   - name: auth
     type: kube-authenticator
-    icon: lock-outline
+    icon: console-line
     source:
       token: ((digital_ocean.token))
   - name: helm-release
