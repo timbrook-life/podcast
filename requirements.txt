@@ -10,3 +10,4 @@ protobuf
 pika
 psycopg2
 sqlalchemy
+pyyaml

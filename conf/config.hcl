@@ -29,7 +29,7 @@ template {
 
 template {
   source = "./conf/templates/connection.ctmpl"
-  destination = "./connection.py"
+  destination = "./config.yaml"
   error_on_missing_key = true
 }
 

@@ -1,7 +1,7 @@
 # This file is generated at runtime
+db:
 {{ with secret "postgresql/creds/podcast" }}
-USERNAME = "{{ .Data.username }}"
-PASSWORD = "{{ .Data.password }}"
-{{ end }}
-HOST = "{{ key "database/connection/host" }}"
-PORT = "{{ key "database/connection/port" }}"
+    username: {{ .Data.username }}
+    password: {{ .Data.password }}{{ end }}
+    host: {{ key "database/connection/host_public" }}
+    port: {{ key "database/connection/port" }}

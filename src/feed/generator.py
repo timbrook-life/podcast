@@ -1,4 +1,4 @@
-from src.feed.db.session import Session
+from src.feed.db.session import get_session
 from src.feed.db.podcast import Podcast
 from src.feed.db.episode import Episode
 from bs4 import BeautifulSoup
@@ -22,18 +22,14 @@ class PodcastFeedGenerator:
         self.doc.append(rss_feed)
         return rss_feed
 
-    def query_podcast(self):
-        sess = Session()
-        return sess.query(Podcast).get(self.pod_id)
-
     def render(self) -> str:
         rss_feed = self.new_rss_feed_header()
-        pod = self.query_podcast()
+        with get_session() as sess:
+            pod = sess.query(Podcast).get(self.pod_id)
+            channel = pod.generate_rss_channel()
+            for ep in pod.episodes:
+                channel.append(ep.generate_rss_item())
 
-        channel = pod.generate_rss_channel()
-        for ep in pod.episodes:
-            channel.append(ep.generate_rss_item())
-
-        rss_feed.append(channel)
+            rss_feed.append(channel)
 
         return str(self.doc)
