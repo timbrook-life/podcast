@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: 7imbrook/podcast
 
-healthEndpoint: "/health"
+healthEndpoint: "/pod.xml"
 
 container:
   port: 4000
