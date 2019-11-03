@@ -27,9 +27,6 @@ def health():
 
 @app.route("/pod.xml")
 def podcasts():
-    # channel = doc.new_tag("channel")
-    # rss_feed.append(channel)
-    # doc.append(rss_feed)
     return Response(PodcastFeedGenerator(pod_id=1).render(), mimetype="text/xml")
 
 

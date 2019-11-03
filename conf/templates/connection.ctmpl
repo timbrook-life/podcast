@@ -3,5 +3,8 @@ db:
 {{ with secret "postgresql/creds/podcast" }}
     username: {{ .Data.username }}
     password: {{ .Data.password }}{{ end }}
-    host: {{ key "database/connection/host_public" }}
+    host: {{ key "database/connection/host" }}
     port: {{ key "database/connection/port" }}
+
+# This isn't really a value but allows for reload via consul
+salt: {{ key "database/connection/salt" }} 

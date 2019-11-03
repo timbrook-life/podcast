@@ -6,6 +6,7 @@ vault {
     verify = false
   }
   vault_agent_token_file = "/var/run/secrets/.vault-token"
+  renew_token = true
 }
 
 consul {
@@ -50,7 +51,7 @@ exec {
   # will wait a random period of time up to the splay value before reloading
   # or killing the child process. This can be used to prevent the thundering
   # herd problem on applications that do not gracefully reload.
-  splay = "5s"
+  splay = "2s"
 
   env {
     # This specifies if the child process should not inherit the parent
@@ -91,8 +92,7 @@ exec {
   # one instead of sending it a signal. This is useful for legacy applications
   # or applications that cannot properly reload their configuration without a
   # full reload.
-  # Don't SIGTERM, just kills itself
-  # reload_signal = "SIGTERM"
+  reload_signal = "SIGHUP"
 
   # This defines the signal sent to the child process when Consul Template is
   # gracefully shutting down. The application should begin a graceful cleanup.
