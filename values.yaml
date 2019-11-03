@@ -13,6 +13,7 @@ ingress:
   hosts:
     - timbrook.tech
     - timbrook.dev
+    - timbrook.life
   paths:
     - /pod.xml
     - /api/upload
